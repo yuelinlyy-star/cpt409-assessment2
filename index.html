@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="zh">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Interact video</title>
+    <style>
+      body {
+        margin: 0;
+        font-family: sans-serif;
+        background-color: #121212;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        min-height: 100vh;
+      }
+      .video-container {
+        position: relative;
+        width: 840px;
+        max-width: 90vw;
+        border-radius: 16px;
+        overflow: hidden;
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+      }
+      .video-container video {
+        width: 100%;
+        height: 100%;
+        display: block;
+      }
+      #decision-buttons {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-color: rgba(0, 0, 0, 0.6);
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        gap: 20px;
+        opacity: 0;
+        visibility: hidden;
+        transition: opacity 0.5s ease, visibility 0.5s ease;
+        z-index: 20;
+      }
+      #decision-buttons.show {
+        opacity: 1;
+        visibility: visible;
+      }
+      #decision-buttons h3 {
+        margin: 0;
+        font-size: 28px;
+        color: white;
+        text-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
+        transition: all 0.3s ease;
+      }
+      .button-wrapper {
+        display: flex;
+        gap: 20px;
+      }
+      #decision-buttons button {
+        padding: 12px 28px;
+        font-size: 18px;
+        font-weight: 500;
+        cursor: pointer;
+        border: 2px solid white;
+        background-color: transparent;
+        color: white;
+        border-radius: 50px;
+        transition: all 0.3s ease;
+      }
+      #decision-buttons button:hover {
+        background-color: white;
+        color: #121212;
+        transform: scale(1.05);
+      }
+
+      /* --- 关键改动：为“重新播放”按钮添加样式 --- */
+      #replay-container {
+        margin-top: 30px; /* 与决策按钮分开一点距离 */
+      }
+      #replay-container button {
+        /* 使用次要按钮的样式 */
+        padding: 8px 20px;
+        font-size: 15px;
+        background-color: rgba(255, 255, 255, 0.1);
+        border: 1px solid rgba(255, 255, 255, 0.5);
+        color: rgba(255, 255, 255, 0.8);
+      }
+      #replay-container button:hover {
+        background-color: white;
+        color: #121212;
+        border-color: white;
+      }
+
+      /* The End 屏幕的样式 (无变化) */
+      #decision-buttons.is-end-screen h3 {
+        font-size: 80px;
+        font-weight: bold;
+      }
+      #decision-buttons.is-end-screen .button-wrapper {
+        flex-direction: column;
+        gap: 15px;
+      }
+      #decision-buttons.is-end-screen .button-wrapper button {
+        padding: 8px 20px;
+        font-size: 15px;
+        background-color: rgba(255, 255, 255, 0.1);
+        border: 1px solid rgba(255, 255, 255, 0.5);
+        color: rgba(255, 255, 255, 0.8);
+      }
+
+      /* 返回按钮的样式 (无变化) */
+      #return-btn {
+        position: absolute;
+        top: 20px;
+        right: 20px;
+        z-index: 10;
+        padding: 6px 16px;
+        font-size: 13px;
+        font-weight: 400;
+        background-color: rgba(0, 0, 0, 0.3);
+        border: 1px solid rgba(255, 255, 255, 0.4);
+        color: rgba(255, 255, 255, 0.8);
+        border-radius: 30px;
+        cursor: pointer;
+        opacity: 0;
+        visibility: hidden;
+        transition: all 0.3s ease;
+      }
+      .video-container.nav-active:hover #return-btn {
+        opacity: 1;
+        visibility: visible;
+      }
+      #return-btn:hover {
+        background-color: rgba(255, 255, 255, 0.9);
+        color: #121212;
+        border-color: transparent;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="video-container" class="video-container">
+      <video id="my-video" controls></video>
+      <div id="decision-buttons">
+        <h3 id="decision-title">Make Your Choice!</h3>
+        <div class="button-wrapper"></div>
+        <!-- --- 关键改动：重新添加这个容器 --- -->
+        <div id="replay-container"></div>
+      </div>
+      <div id="in-video-nav">
+        <button id="return-btn">Go back</button>
+      </div>
+    </div>
+    <script src="script.js"></script>
+  </body>
+</html>
